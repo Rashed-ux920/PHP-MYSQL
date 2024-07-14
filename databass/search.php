@@ -1,0 +1,55 @@
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        # code...
+        $searchuser = $_POST["searchuser"];
+
+    
+        try {
+            
+            // Include the database connection file
+            include "dbh.inc.php";
+            
+            // Prepare the SQL query with placeholders for the values
+            $query = "SELECT * FORM COMMENTS WHERE USERNAME = :searchuser";
+            $stmt = $pdo->prepare($query);
+            
+            // Execute the statement with the provided values
+            $stmt->execute([
+                'username' => $username,  // Ensure the variable names match
+                'pwd' => $pwd,            // Ensure the variable names match
+                'email' => $email         // Ensure the variable names match
+            ]);
+            
+            // Reset the database connection and statement to null
+            $pdo = null;
+            $stmt = null;
+            
+            // Redirect the user to the main page
+            header("Location: ../index.php");
+            
+            // Terminate the script to ensure the redirection occurs
+            die();
+        
+            
+    
+        } catch (PDOException $e) {
+            //throw $th;
+            die("Query falied: " . $e->getmessage());
+        }
+    }
+    else{
+        header("Location: ../index.php");
+    }
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
